@@ -21,3 +21,19 @@ const birthstones = {
   November: "Topaz or Citrine",
   December: "Tanzanite, Zircon, or Turquoise",
 };
+
+// get the month from command line arguments
+month = process.argv[2];
+
+// function to get the birthstone for a given month
+function getBirthstone(month) {
+  // check if the month is valid
+  if (birthstones[month]) {
+    return `The birthstone for ${month} is ${birthstones[month]}.`;
+  } else {
+    return "Invalid month. Please enter a valid month.";
+  }
+}
+
+// call the function and log the result
+console.log(getBirthstone(month));
