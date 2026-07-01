@@ -10,28 +10,39 @@ Check the README.md file for instructions.
 import fs from "fs/promises";
 
 //get the pizza order from command line arguments
- const order = process.argv[2];
+ const command = process.argv[2];
+const orderNumber = process.argv[3];
 
-//get the pizza order data from the JSON file
-async function getOneOrder() {
+//function to get the pizza order data from the JSON file
+async function getPizzaOrder() {
   try {
     const data = await fs.readFile("data.json", "utf-8");
-    const order = JSON.parse(data);
-    return order;
+    const pizzaOrders = JSON.parse(data);
+    return pizzaOrders;
   } catch (error) {
     console.error("Error reading pizza order data:", error);
   }
-}         
+}
 
 //function to print the pizza order
-async function printPizzaOrder(order) {
-  const pizzaOrder = await getPizzaOrder();
-  if (pizzaOrder[order]) {
-    console.log(`Your order: ${pizzaOrder[order]}`);
+async function printPizzaOrder(orderNumber) {
+  const pizzaOrders = await getPizzaOrder();
+  if (command === "getAllOrders") {
+    pizzaOrders.forEach((order) => {
+        console.log(order);
+    });
+  } else if (command === `getOneOrder`) {
+    const index = Number(orderNumber);
+
+    if (pizzaOrders[index]) {
+        console.log(pizzaOrders[index]);
+    } else {
+        console.log("Order not found. Please enter a valid order number.");
+    }
   } else {
-    console.log("Invalid order. Please enter a valid order.");
+    console.log("Invalid command. Please use 'getAllOrders' or 'getOneOrder <orderNumber>'.");
   }
 }
 
-//call the function and log the result
-order === `getOneOrder ${pizzaOrder[order]}` ? getOneOrder().then(console.log) : printPizzaOrder(order);     
+//call the function to print the pizza order
+printPizzaOrder(orderNumber)
